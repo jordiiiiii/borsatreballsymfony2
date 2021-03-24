@@ -19,6 +19,11 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
+
+        if (is_object($this->get('security.token_storage')->getToken()->getUser())) {
+            return $this->redirectToRoute('redireccionar');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -33,6 +38,12 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager = $this->getDoctrine()->getManager();
+            $isEmpresa =  $form->get('etsEmpresa')->getData();
+            if ($isEmpresa) {
+                $user->setRoles(['ROLE_EMPRESA']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
