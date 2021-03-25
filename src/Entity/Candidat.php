@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,22 @@ class Candidat
      * @ORM\Column(type="integer", nullable=true)
      */
     private $telefon;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Oferta::class, mappedBy="candidats")
+     */
+    private $ofertes;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="candidat", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $usuari;
+
+    public function __construct()
+    {
+        $this->ofertes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +104,45 @@ class Candidat
     public function setTelefon(?int $telefon): self
     {
         $this->telefon = $telefon;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Oferta[]
+     */
+    public function getOfertes(): Collection
+    {
+        return $this->ofertes;
+    }
+
+    public function addOferte(Oferta $oferte): self
+    {
+        if (!$this->ofertes->contains($oferte)) {
+            $this->ofertes[] = $oferte;
+            $oferte->addCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOferte(Oferta $oferte): self
+    {
+        if ($this->ofertes->removeElement($oferte)) {
+            $oferte->removeCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function getUsuari(): ?User
+    {
+        return $this->usuari;
+    }
+
+    public function setUsuari(User $usuari): self
+    {
+        $this->usuari = $usuari;
 
         return $this;
     }

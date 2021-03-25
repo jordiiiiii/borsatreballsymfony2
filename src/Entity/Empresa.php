@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EmpresaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,22 @@ class Empresa
      * @ORM\Column(type="string", length=100)
      */
     private $correu;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Oferta::class, mappedBy="empresa")
+     */
+    private $ofertes;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="empresa", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $usuari;
+
+    public function __construct()
+    {
+        $this->ofertes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +104,48 @@ class Empresa
     public function setCorreu(string $correu): self
     {
         $this->correu = $correu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Oferta[]
+     */
+    public function getOfertes(): Collection
+    {
+        return $this->ofertes;
+    }
+
+    public function addOferte(Oferta $oferte): self
+    {
+        if (!$this->ofertes->contains($oferte)) {
+            $this->ofertes[] = $oferte;
+            $oferte->setEmpresa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOferte(Oferta $oferte): self
+    {
+        if ($this->ofertes->removeElement($oferte)) {
+            // set the owning side to null (unless already changed)
+            if ($oferte->getEmpresa() === $this) {
+                $oferte->setEmpresa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUsuari(): ?User
+    {
+        return $this->usuari;
+    }
+
+    public function setUsuari(User $usuari): self
+    {
+        $this->usuari = $usuari;
 
         return $this;
     }

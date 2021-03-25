@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OfertaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,28 @@ class Oferta
      * @ORM\Column(type="smallint")
      */
     private $estat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Empresa::class, inversedBy="ofertes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $empresa;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Candidat::class, inversedBy="ofertes")
+     */
+    private $candidats;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="ofertes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categoria;
+
+    public function __construct()
+    {
+        $this->candidats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +127,54 @@ class Oferta
     public function setEstat(int $estat): self
     {
         $this->estat = $estat;
+
+        return $this;
+    }
+
+    public function getEmpresa(): ?Empresa
+    {
+        return $this->empresa;
+    }
+
+    public function setEmpresa(?Empresa $empresa): self
+    {
+        $this->empresa = $empresa;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Candidat[]
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats[] = $candidat;
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): self
+    {
+        $this->candidats->removeElement($candidat);
+
+        return $this;
+    }
+
+    public function getCategoria(): ?Categoria
+    {
+        return $this->categoria;
+    }
+
+    public function setCategoria(?Categoria $categoria): self
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }
