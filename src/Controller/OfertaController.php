@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Oferta;
+use App\Entity\Empresa;
 use App\Form\OfertaType;
 use App\Repository\OfertaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,15 +35,28 @@ class OfertaController extends AbstractController
     {
 
         $ofertum = new Oferta();
+        $ofertum->getEmpresa();
+        $empresa = $this->getDoctrine()->getRepository(Empresa::class)->findOneBy(['usuari' => $this->getUser()->getId()]);
+        $ofertum->setEmpresa($empresa);
+        $ofertum->setDataPublicacio(new \DateTime());
         $form = $this->createForm(OfertaType::class, $ofertum);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $ofertum->setEstat(0);
             $entityManager->persist($ofertum);
             $entityManager->flush();
 
-            return $this->redirectToRoute('oferta_index');
+            $this->addFlash('success', 'Oferta Creada! Ets un geni!');
+
+            if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
+                return $this->redirectToRoute('oferta_index');
+            }
+            else{
+                return $this->redirectToRoute('oferta_new');
+            }
+
         }
 
         return $this->render('oferta/new.html.twig', [

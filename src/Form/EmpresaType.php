@@ -18,10 +18,6 @@ class EmpresaType extends AbstractType
             ->add('tipus')
             ->add('logo')
             ->add('correu')
-//            ->add('usuari')
-//            ->add('usuari', EntityType::class, [
-//                'class' => User::class,
-//                'choice_label' => 'email'])
         ;
     }
 

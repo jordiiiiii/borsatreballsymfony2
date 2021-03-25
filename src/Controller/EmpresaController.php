@@ -33,6 +33,8 @@ class EmpresaController extends AbstractController
     public function new(Request $request): Response
     {
         $empresa = new Empresa();
+        $user = $this->getUser();
+        $empresa->setUsuari($user);
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
 
@@ -41,7 +43,13 @@ class EmpresaController extends AbstractController
             $entityManager->persist($empresa);
             $entityManager->flush();
 
-            return $this->redirectToRoute('empresa_index');
+            if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
+                return $this->redirectToRoute('empresa_index');
+            }
+            else{
+                return $this->redirectToRoute('oferta_new');
+            }
+
         }
 
         return $this->render('empresa/new.html.twig', [

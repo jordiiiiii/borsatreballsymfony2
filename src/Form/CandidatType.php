@@ -20,9 +20,9 @@ class CandidatType extends AbstractType
             ->add('telefon')
 //            ->add('ofertes')
 //            ->add('usuari')
-            ->add('usuari', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'email'])
+//            ->add('usuari', EntityType::class, [
+//                'class' => User::class,
+//                'choice_label' => 'email'])
         ;
     }
 

@@ -10,4 +10,12 @@
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('oferta_index') }}">back to list</a>
     {% endif %}
+    <a href="http://labs.iam.cat/~a18jorgornei/projecte3/frontV3/">Back to web</a>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
 {% endblock %}

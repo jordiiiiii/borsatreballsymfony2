@@ -41,8 +41,8 @@ class WelcomeController extends AbstractController
             return $this->redirectToRoute('candidat_new');
         }
 
-        return $this->render('welcome/index.html.twig', [
-            'controller_name' => 'WelcomeController',
-        ]);
+//        return $this->render('welcome/index.html.twig', [
+//            'controller_name' => 'WelcomeController',
+//        ]);
     }
 }

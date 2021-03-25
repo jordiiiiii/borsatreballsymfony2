@@ -13,6 +13,11 @@ class IniciController extends AbstractController
      */
     public function index(): Response
     {
+
+        if (is_object($this->get('security.token_storage')->getToken()->getUser())) {
+            return $this->redirectToRoute('welcome');
+        }
+
         return $this->render('inici/index.html.twig', [
             'controller_name' => 'IniciController',
         ]);

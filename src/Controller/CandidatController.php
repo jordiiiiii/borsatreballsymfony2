@@ -34,6 +34,8 @@ class CandidatController extends AbstractController
     {
 
         $candidat = new Candidat();
+        $user = $this->getUser();
+        $candidat->setUsuari($user);
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
 
@@ -42,7 +44,13 @@ class CandidatController extends AbstractController
             $entityManager->persist($candidat);
             $entityManager->flush();
 
-            return $this->redirectToRoute('candidat_index');
+            if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
+                return $this->redirectToRoute('candidat_index');
+            }
+            else{
+                return $this->redirect('http://labs.iam.cat/~a18jorgornei/projecte3/frontV3/');
+            }
+
         }
 
         return $this->render('candidat/new.html.twig', [
