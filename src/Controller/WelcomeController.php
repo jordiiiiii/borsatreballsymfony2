@@ -29,13 +29,16 @@ class WelcomeController extends AbstractController
     public function redireccionar(): Response
     {
         if(in_array("ROLE_EMPRESA", $this->getUser()->getRoles())){
-                return $this->redirectToRoute('roleempresa');
+//                return $this->redirectToRoute('roleempresa');
+                return $this->redirectToRoute('empresa_new');
         }
         else if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
-            return $this->redirectToRoute('roleadmin');
+//            return $this->redirectToRoute('roleadmin');
+            return $this->redirectToRoute('oferta_index');
         }
         else{
-            return $this->redirectToRoute('roleuser');
+//            return $this->redirectToRoute('roleuser');
+            return $this->redirectToRoute('candidat_new');
         }
 
         return $this->render('welcome/index.html.twig', [

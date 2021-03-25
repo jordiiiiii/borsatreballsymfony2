@@ -20,6 +20,8 @@ class EmpresaController extends AbstractController
      */
     public function index(EmpresaRepository $empresaRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('empresa/index.html.twig', [
             'empresas' => $empresaRepository->findAll(),
         ]);
@@ -53,6 +55,8 @@ class EmpresaController extends AbstractController
      */
     public function show(Empresa $empresa): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('empresa/show.html.twig', [
             'empresa' => $empresa,
         ]);
@@ -63,6 +67,8 @@ class EmpresaController extends AbstractController
      */
     public function edit(Request $request, Empresa $empresa): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
 
@@ -83,6 +89,8 @@ class EmpresaController extends AbstractController
      */
     public function delete(Request $request, Empresa $empresa): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$empresa->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($empresa);

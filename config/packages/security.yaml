@@ -39,6 +39,9 @@ security:
          - { path: ^/roleuser, roles: ROLE_USER }
          - { path: ^/roleempresa, roles: ROLE_EMPRESA }
          - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+         - { path: ^/candidat/new, roles: [ROLE_USER, ROLE_ADMIN] }
+         - { path: ^/oferta/new, roles: [ROLE_EMPRESA, ROLE_ADMIN] }
+         - { path: ^/empresa/new, roles: [ROLE_EMPRESA, ROLE_ADMIN] }
          - { path: ^/logout, roles: [IS_AUTHENTICATED_FULLY] }
          - { path: ^/login, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
          - { path: ^/register, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
@@ -46,44 +49,13 @@ security:
 
 #        # require ROLE_ADMIN for /admin*
 #        - { path: '^/admin', roles: ROLE_ADMIN }
-#
 #        # or require ROLE_ADMIN or IS_AUTHENTICATED_FULLY for /admin*
 #        - { path: '^/admin', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
-#
 #        # the 'path' value can be any valid regular expression
 #        # (this one will match URLs like /api/post/7298 and /api/comment/528491)
 #        - { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
-#
 #        # matches /admin/users/*
 #        - { path: '^/admin/users', roles: ROLE_SUPER_ADMIN }
-#
 #        # matches /admin/* except for anything matching the above rule
-#        - { path: '^/admin', roles: ROLE_ADMIN }
-#
 #        - { path: '^/prova', roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
 #        - { path: '^/jordi', roles: ROLE_USER }
-
-#    role_hierarchy:
-#        ROLE_ADMIN: [ROLE_USER, ROLE_EMPRESA]
-#    # Las siguientes rutas tienen que ir de más a menos específicas. Symfony las lee por orden de arriba a bajo
-#    # En el ultimo nivel por ejemplo se niega el acceso a TODA la aplicacion a quienes no sean admin
-#    # Eso quiere decir que si alguien intenta acceder a una ruta QUE AQUÍ NO ESTÉ ESPECIFICADA no podrá si no es admin
-#    # Este orden permite que una empresa pueda acceder a /oferta/new pero no a oferta/
-#    access_control:
-#        ## Rutas CRUD
-#        # Empresa
-#        - { path: ^/oferta/new, roles: [ROLE_ADMIN, ROLE_EMPRESA] }
-#        - { path: ^/empresa/new, roles: [ROLE_ADMIN, ROLE_EMPRESA] } # Tambien desde el controler se evita que pueda volver a entrar estando logedado
-#        # User
-#        - { path: ^/candidat/new, role: [ROLE_ADMIN, ROLE_USER] }  # Tambien desde el controler se evita que pueda volver a entrar estando logedado
-#        - { path: ^/UserLoggedView, role: [ROLE_ADMIN, ROLE_USER] } # No se porque desde aqui no funciona (se controla desde LinkedonController)
-#        - { path: ^/api, role: [ROLE_ADMIN, ROLE_USER] } #Api de Jordi para mostrar e inscribirse a ofertas
-#        ## Rutas login/registro
-#        - { path: ^/defineRol, role: [IS_AUTHENTICATED_FULLY] } # Los logeados se redirigen según su rol
-#        - { path: ^/user/verify, role: [ROLE_UNVERIFIED] } # Las empresas deben verificarse despues de registrarse
-#        - { path: ^/logout, role: [IS_AUTHENTICATED_FULLY] } # Todos los logeados pueden entrar a /logout
-#        - { path: ^/login, role: [IS_AUTHENTICATED_ANONYMOUSLY] } # SOLO los que no están logeados entran a /login
-#        - { path: ^/register, role: [IS_AUTHENTICATED_ANONYMOUSLY] } # SOLO los que no están logeados entran a /register
-#        ## Nivel mas restrictivo
-#        - { path: ^/(.+), roles: ROLE_ADMIN } # Todas las rutas son solo accesibles para admin
-#        - { path: ^/, role: [IS_AUTHENTICATED_ANONYMOUSLY] } # Abrimos el index para cualquier user

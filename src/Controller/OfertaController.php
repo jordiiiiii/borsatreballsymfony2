@@ -20,6 +20,8 @@ class OfertaController extends AbstractController
      */
     public function index(OfertaRepository $ofertaRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('oferta/index.html.twig', [
             'ofertas' => $ofertaRepository->findAll(),
         ]);
@@ -30,6 +32,7 @@ class OfertaController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
         $ofertum = new Oferta();
         $form = $this->createForm(OfertaType::class, $ofertum);
         $form->handleRequest($request);
@@ -53,6 +56,8 @@ class OfertaController extends AbstractController
      */
     public function show(Oferta $ofertum): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('oferta/show.html.twig', [
             'ofertum' => $ofertum,
         ]);
@@ -63,6 +68,8 @@ class OfertaController extends AbstractController
      */
     public function edit(Request $request, Oferta $ofertum): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(OfertaType::class, $ofertum);
         $form->handleRequest($request);
 
@@ -83,6 +90,8 @@ class OfertaController extends AbstractController
      */
     public function delete(Request $request, Oferta $ofertum): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$ofertum->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ofertum);

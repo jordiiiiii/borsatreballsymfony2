@@ -20,6 +20,9 @@ class CategoriaController extends AbstractController
      */
     public function index(CategoriaRepository $categoriaRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
+
         return $this->render('categoria/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
         ]);
@@ -30,6 +33,8 @@ class CategoriaController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $categorium = new Categoria();
         $form = $this->createForm(CategoriaType::class, $categorium);
         $form->handleRequest($request);
@@ -53,6 +58,8 @@ class CategoriaController extends AbstractController
      */
     public function show(Categoria $categorium): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('categoria/show.html.twig', [
             'categorium' => $categorium,
         ]);
@@ -63,6 +70,8 @@ class CategoriaController extends AbstractController
      */
     public function edit(Request $request, Categoria $categorium): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(CategoriaType::class, $categorium);
         $form->handleRequest($request);
 
@@ -83,6 +92,8 @@ class CategoriaController extends AbstractController
      */
     public function delete(Request $request, Categoria $categorium): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$categorium->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($categorium);

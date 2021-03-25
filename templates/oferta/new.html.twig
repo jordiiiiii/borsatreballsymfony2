@@ -7,5 +7,7 @@
 
     {{ include('oferta/_form.html.twig') }}
 
-    <a href="{{ path('oferta_index') }}">back to list</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('oferta_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

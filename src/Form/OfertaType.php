@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Oferta;
+use App\Entity\Categoria;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class OfertaType extends AbstractType
 {
@@ -14,12 +16,15 @@ class OfertaType extends AbstractType
         $builder
             ->add('titol')
             ->add('descripcio')
-            ->add('dataPublicacio')
+//            ->add('dataPublicacio')
             ->add('ubicacio')
             ->add('estat')
-            ->add('empresa')
-            ->add('candidats')
-            ->add('categoria')
+//            ->add('empresa')
+//            ->add('candidats')
+//            ->add('categoria')
+            ->add('categoria', EntityType::class, [
+                'class' => Categoria::class,
+                'choice_label' => 'descripcio'])
         ;
     }
 

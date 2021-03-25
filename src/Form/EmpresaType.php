@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Empresa;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EmpresaType extends AbstractType
 {
@@ -16,7 +18,10 @@ class EmpresaType extends AbstractType
             ->add('tipus')
             ->add('logo')
             ->add('correu')
-            ->add('usuari')
+//            ->add('usuari')
+//            ->add('usuari', EntityType::class, [
+//                'class' => User::class,
+//                'choice_label' => 'email'])
         ;
     }
 

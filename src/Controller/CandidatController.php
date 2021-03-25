@@ -20,6 +20,8 @@ class CandidatController extends AbstractController
      */
     public function index(CandidatRepository $candidatRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('candidat/index.html.twig', [
             'candidats' => $candidatRepository->findAll(),
         ]);
@@ -30,6 +32,7 @@ class CandidatController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
         $candidat = new Candidat();
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
@@ -53,6 +56,8 @@ class CandidatController extends AbstractController
      */
     public function show(Candidat $candidat): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('candidat/show.html.twig', [
             'candidat' => $candidat,
         ]);
@@ -63,6 +68,8 @@ class CandidatController extends AbstractController
      */
     public function edit(Request $request, Candidat $candidat): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
 
@@ -83,6 +90,8 @@ class CandidatController extends AbstractController
      */
     public function delete(Request $request, Candidat $candidat): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$candidat->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($candidat);

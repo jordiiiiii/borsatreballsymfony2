@@ -1,9 +1,17 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
     <div class="container">
-        <a href="/oferta" class="navbar-brand">Ofertes</a>
-        <a href="/categoria" class="navbar-brand">Categories</a>
-        <a href="/empresa" class="navbar-brand">Empreses</a>
-        <a href="/candidat" class="navbar-brand">Candidats</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/oferta" class="navbar-brand">Ofertes</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/categoria" class="navbar-brand">Categories</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/empresa" class="navbar-brand">Empreses</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/candidat" class="navbar-brand">Candidats</a>
+        {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-taget="#mobile-nav">
             <span class="navbar-toggle-icon"></span>
         </button>
