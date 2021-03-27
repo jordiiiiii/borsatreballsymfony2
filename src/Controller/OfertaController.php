@@ -31,7 +31,7 @@ class OfertaController extends AbstractController
     /**
      * @Route("/new", name="oferta_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, OfertaRepository $ofertaRepository): Response
     {
 
         $ofertum = new Oferta();
@@ -41,6 +41,10 @@ class OfertaController extends AbstractController
         $ofertum->setDataPublicacio(new \DateTime());
         $form = $this->createForm(OfertaType::class, $ofertum);
         $form->handleRequest($request);
+
+//        $teOfertes = $ofertum->getEmpresa();
+//        $teOfertes = $ofertaRepository->findBy(['empresa' =>  $ofertum->getEmpresa()]);
+//        dump($teOfertes);die;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -62,6 +66,7 @@ class OfertaController extends AbstractController
         return $this->render('oferta/new.html.twig', [
             'ofertum' => $ofertum,
             'form' => $form->createView(),
+            'ofertes' => $ofertaRepository->findBy(['empresa' =>  $ofertum->getEmpresa()]),
         ]);
     }
 
