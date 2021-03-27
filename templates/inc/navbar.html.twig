@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
     <div class="container">
+        <a href="/" class="navbar-brand text-info">Home</a>
+        <a href="http://labs.iam.cat/~a18jorgornei/projecte3/frontV3/" class="navbar-brand text-warning">Borsa Treball</a>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="/oferta" class="navbar-brand">Ofertes</a>
         {% endif %}
@@ -11,6 +13,9 @@
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <a href="/candidat" class="navbar-brand">Candidats</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/user" class="navbar-brand">Usuaris</a>
         {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-taget="#mobile-nav">
             <span class="navbar-toggle-icon"></span>

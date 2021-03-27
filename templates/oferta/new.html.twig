@@ -8,9 +8,11 @@
     {{ include('oferta/_form.html.twig') }}
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('oferta_index') }}">back to list</a>
+        <a href="{{ path('oferta_index') }}">Back to list</a>
     {% endif %}
-    <a href="http://labs.iam.cat/~a18jorgornei/projecte3/frontV3/">Back to web</a>
+    {% if is_granted('ROLE_EMPRESA') %}
+        <a href="http://labs.iam.cat/~a18jorgornei/projecte3/frontV3/">Back to web</a>
+    {% endif %}
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">

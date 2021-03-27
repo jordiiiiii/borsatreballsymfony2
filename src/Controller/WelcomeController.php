@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Repository\CandidatRepository;
+use App\Repository\EmpresaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WelcomeController extends AbstractController
 {
+
     /**
      * @Route("/welcome", name="welcome")
      */
@@ -26,23 +29,27 @@ class WelcomeController extends AbstractController
     /**
      * @Route("/redireccionar", name="redireccionar")
      */
-    public function redireccionar(): Response
+    public function redireccionar(EmpresaRepository $empresaRepository, CandidatRepository $candidatRepository): Response
     {
         if(in_array("ROLE_EMPRESA", $this->getUser()->getRoles())){
-//                return $this->redirectToRoute('roleempresa');
-                return $this->redirectToRoute('empresa_new');
+            $id = $this->getUser()->getId();
+            $objectes = $empresaRepository->findOneBy( array('usuari'=>$id));
+            if ($objectes) {
+                return $this->redirectToRoute('oferta_new');
+            }
+            return $this->redirectToRoute('empresa_new');
         }
         else if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
-//            return $this->redirectToRoute('roleadmin');
             return $this->redirectToRoute('oferta_index');
         }
         else{
-//            return $this->redirectToRoute('roleuser');
+            $id = $this->getUser()->getId();
+            $objectes = $candidatRepository->findOneBy( array('usuari'=>$id));
+            if ($objectes) {
+                return $this->redirectToRoute('roleuser');
+            }
             return $this->redirectToRoute('candidat_new');
         }
-
-//        return $this->render('welcome/index.html.twig', [
-//            'controller_name' => 'WelcomeController',
-//        ]);
     }
+
 }
