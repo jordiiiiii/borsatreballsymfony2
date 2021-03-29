@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Oferta;
 use App\Entity\Empresa;
+use App\Entity\Categoria;
 use App\Form\OfertaType;
 use App\Repository\OfertaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,85 @@ class OfertaController extends AbstractController
     public function index(OfertaRepository $ofertaRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $categoria = $this->getDoctrine()->getRepository(Categoria::class)->findOneBy(['id' => 1]);
 
         return $this->render('oferta/index.html.twig', [
+            // 'ofertum' => $ofertum,
+            // 'form' => $form->createView(),
+            // 'ofertas' => $ofertaRepository->findBy(['categoria' => $categoria]),
             'ofertas' => $ofertaRepository->findAll(),
+            'titol' => "TOTES LES OFERTES",
         ]);
     }
+
+     /**
+     * @Route("/dam", name="oferta_index_dam", methods={"GET"})
+     */
+    public function index_dam(OfertaRepository $ofertaRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $categoria = $this->getDoctrine()->getRepository(Categoria::class)->findOneBy(['descripcio' => "DAM"]);
+
+        return $this->render('oferta/index.html.twig', [
+            // 'ofertum' => $ofertum,
+            // 'form' => $form->createView(),
+            'ofertas' => $ofertaRepository->findBy(['categoria' => $categoria]),
+            'titol' => "OFERTES DE DAM",
+            // 'ofertas' => $ofertaRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/daw", name="oferta_index_daw", methods={"GET"})
+     */
+    public function index_daw(OfertaRepository $ofertaRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $categoria = $this->getDoctrine()->getRepository(Categoria::class)->findOneBy(['descripcio' => "DAW"]);
+
+        return $this->render('oferta/index.html.twig', [
+            // 'ofertum' => $ofertum,
+            // 'form' => $form->createView(),
+            'ofertas' => $ofertaRepository->findBy(['categoria' => $categoria]),
+            'titol' => "OFERTES DE DAW",
+            // 'ofertas' => $ofertaRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/asix", name="oferta_index_asix", methods={"GET"})
+     */
+    public function index_asix(OfertaRepository $ofertaRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $categoria = $this->getDoctrine()->getRepository(Categoria::class)->findOneBy(['descripcio' => "ASIX"]);
+
+        return $this->render('oferta/index.html.twig', [
+            // 'ofertum' => $ofertum,
+            // 'form' => $form->createView(),
+            'ofertas' => $ofertaRepository->findBy(['categoria' => $categoria]),
+            'titol' => "OFERTES DE ASIX",
+            // 'ofertas' => $ofertaRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/smx", name="oferta_index_smx", methods={"GET"})
+     */
+    public function index_smx(OfertaRepository $ofertaRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $categoria = $this->getDoctrine()->getRepository(Categoria::class)->findOneBy(['descripcio' => "SMX"]);
+
+        return $this->render('oferta/index.html.twig', [
+            // 'ofertum' => $ofertum,
+            // 'form' => $form->createView(),
+            'ofertas' => $ofertaRepository->findBy(['categoria' => $categoria]),
+            'titol' => "OFERTES DE SMX",
+            // 'ofertas' => $ofertaRepository->findAll(),
+        ]);
+    }
+
 
     /**
      * @Route("/new", name="oferta_new", methods={"GET","POST"})
@@ -55,7 +130,15 @@ class OfertaController extends AbstractController
             $this->addFlash('success', 'Oferta Creada! Ets un geni!');
 
             if(in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
-                return $this->redirectToRoute('oferta_index');
+            //    $categoria = new Categoria();
+            //    $categoria->setDescripcio("ASIX");
+               
+            //    return $this->render('oferta/new.html.twig', [
+            //         'ofertum' => $ofertum,
+            //         'form' => $form->createView(),
+            //         'ofertes' => $ofertaRepository->findBy(['categoria' => $categoria]),
+            //     ]);
+
             }
             else{
                 return $this->redirectToRoute('oferta_new');

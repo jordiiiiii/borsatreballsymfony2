@@ -3,8 +3,20 @@
 {% block title %}Oferta index{% endblock %}
 
 {% block body %}
-    <h1>Oferta index</h1>
+{% if is_granted('ROLE_ADMIN') %}
+    <h1>{{ titol }}</h1>
+    <br>
+    <a class="btn btn-primary" href="{{ path('oferta_index') }}">TOTES</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="btn btn-primary" href="{{ path('oferta_index_dam') }}">DAM</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="btn btn-primary" href="{{ path('oferta_index_daw') }}">DAW</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="btn btn-primary" href="{{ path('oferta_index_asix') }}">ASIX</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="btn btn-primary" href="{{ path('oferta_index_smx') }}">SMX</a>
 
+    <br><br>
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +50,46 @@
         {% endfor %}
         </tbody>
     </table>
-
     <a href="{{ path('oferta_new') }}">Create new</a>
+{% else %}
+{# {% if is_granted('ROLE_ADMIN') %} #}
+    <h3 class="mt-3">Ofertes</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titol</th>
+            <th>Descripcio</th>
+            <th>DataPublicacio</th>
+            <th>Ubicacio</th>
+            <th>Estat</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ofertum in ofertas %}
+            <tr>
+                <td>{{ ofertum.id }}</td>
+                <td>{{ ofertum.titol }}</td>
+                <td>{{ ofertum.descripcio }}</td>
+                <td>{{ ofertum.dataPublicacio ? ofertum.dataPublicacio|date('Y-m-d') : '' }}</td>
+                <td>{{ ofertum.ubicacio }}</td>
+                <td>{{ ofertum.estat }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
+
 {% endblock %}
