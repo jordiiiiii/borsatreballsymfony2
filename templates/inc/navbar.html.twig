@@ -17,6 +17,9 @@
         {% if is_granted('ROLE_ADMIN') %}
             <a href="/user" class="navbar-brand">Usuaris</a>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="/roleadmin" class="navbar-brand">Admin</a>
+        {% endif %}
 {#        <a href="/email" class="navbar-brand">Email</a>#}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-taget="#mobile-nav">
             <span class="navbar-toggle-icon"></span>

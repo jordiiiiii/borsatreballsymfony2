@@ -1,20 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RoleadminController!{% endblock %}
+{% block title %}Registres index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Registres index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Correu</th>
+            <th>Ip</th>
+            <th>Data</th>
+            <th>Nom</th>
+            <th>Cognom1</th>
+            <th>Cognom2</th>
+            <th>Id Oferta</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for registre in registres %}
+            <tr>
+                <td>{{ registre.id }}</td>
+                <td>{{ registre.correu }}</td>
+                <td>{{ registre.ip }}</td>
+                <td>{{ registre.data }}</td>
+                <td>{{ registre.nom }}</td>
+                <td>{{ registre.cognom1 }}</td>
+                <td>{{ registre.cognom2 }}</td>
+                <td><a href="{{ path('oferta_show', {'id': registre.getOfertaId.id}) }}">{{ registre.getOfertaId.id }}</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/Transversal/borsatreballsymfony2/src/Controller/RoleadminController.php'|file_link(0) }}">src/Controller/RoleadminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/Transversal/borsatreballsymfony2/templates/roleadmin/index.html.twig'|file_link(0) }}">templates/roleadmin/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <h1>Track index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ip</th>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for track in tracks %}
+            <tr>
+                <td>{{ track.id }}</td>
+                <td>{{ track.ip }}</td>
+                <td>{{ track.data }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

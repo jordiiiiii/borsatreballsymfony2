@@ -20,6 +20,8 @@ class RegistresController extends AbstractController
      */
     public function index(RegistresRepository $registresRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('registres/index.html.twig', [
             'registres' => $registresRepository->findAll(),
         ]);
@@ -30,6 +32,8 @@ class RegistresController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $registre = new Registres();
         $form = $this->createForm(RegistresType::class, $registre);
         $form->handleRequest($request);
@@ -53,6 +57,8 @@ class RegistresController extends AbstractController
      */
     public function show(Registres $registre): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         return $this->render('registres/show.html.twig', [
             'registre' => $registre,
         ]);
@@ -63,6 +69,8 @@ class RegistresController extends AbstractController
      */
     public function edit(Request $request, Registres $registre): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(RegistresType::class, $registre);
         $form->handleRequest($request);
 
@@ -83,6 +91,8 @@ class RegistresController extends AbstractController
      */
     public function delete(Request $request, Registres $registre): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$registre->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($registre);
