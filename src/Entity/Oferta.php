@@ -61,9 +61,15 @@ class Oferta
      */
     private $categoria;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Registres::class, mappedBy="oferta_id")
+     */
+    private $registres;
+
     public function __construct()
     {
         $this->candidats = new ArrayCollection();
+        $this->registres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +181,36 @@ class Oferta
     public function setCategoria(?Categoria $categoria): self
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Registres[]
+     */
+    public function getRegistres(): Collection
+    {
+        return $this->registres;
+    }
+
+    public function addRegistre(Registres $registre): self
+    {
+        if (!$this->registres->contains($registre)) {
+            $this->registres[] = $registre;
+            $registre->setOfertaId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistre(Registres $registre): self
+    {
+        if ($this->registres->removeElement($registre)) {
+            // set the owning side to null (unless already changed)
+            if ($registre->getOfertaId() === $this) {
+                $registre->setOfertaId(null);
+            }
+        }
 
         return $this;
     }

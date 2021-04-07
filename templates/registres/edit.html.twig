@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Registres{% endblock %}
+
+{% block body %}
+    <h1>Edit Registres</h1>
+
+    {{ include('registres/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('registres_index') }}">back to list</a>
+
+    {{ include('registres/_delete_form.html.twig') }}
+{% endblock %}
